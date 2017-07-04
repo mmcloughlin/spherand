@@ -38,6 +38,8 @@ g := spherand.NewGenerator(rand.New(rand.NewSource(42)))
 lat, lng := g.Geographical()
 ```
 
+See [godoc](https://godoc.org/github.com/mmcloughlin/spherand) for reference.
+
 ## Diagrams
 
 Generated with [globe](https://github.com/mmcloughlin/globe).
