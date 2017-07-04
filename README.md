@@ -2,6 +2,10 @@
 
 Random points on a sphere in Golang.
 
+[![GoDoc Reference](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](http://godoc.org/github.com/mmcloughlin/spherand)
+[![Build status](https://img.shields.io/travis/mmcloughlin/spherand.svg?style=flat-square)](https://travis-ci.org/mmcloughlin/spherand)
+
+
 ## The Problem
 
 If you generate latitude and longitude uniformly in the ranges `[-90, 90]` and
