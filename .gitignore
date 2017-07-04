@@ -1,3 +1,6 @@
+# Diagrams
+*.png
+
 # Binaries for programs and plugins
 *.exe
 *.dll
