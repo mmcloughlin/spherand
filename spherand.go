@@ -1,3 +1,4 @@
+// Package spherand generates random points uniformly on a sphere.
 package spherand
 
 import (
