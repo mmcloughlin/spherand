@@ -6,7 +6,18 @@ import (
 )
 
 // UniformSampler generates samples from the uniform distribution on [0,1).
-type UniformSampler func() float64
+type UniformSampler interface {
+	Float64() float64
+}
+
+// UniformSamplerFunc can satisfy the UniformSampler interface with a plain
+// function.
+type UniformSamplerFunc func() float64
+
+// Float64 calls f.
+func (f UniformSamplerFunc) Float64() float64 {
+	return f()
+}
 
 // Generator can generate spherical points based on a configured source of
 // uniform random values.
@@ -14,29 +25,24 @@ type Generator struct {
 	sampler UniformSampler
 }
 
-// NewGenerator builds a Generator backed by the given uniform sampler.
+// NewGenerator builds a Generator backed by the given uniform sampler. Note
+// that the standard library rand.Rand can be used as a UniformSampler.
 func NewGenerator(sampler UniformSampler) Generator {
 	return Generator{
 		sampler: sampler,
 	}
 }
 
-// NewGeneratorFromSource builds a Generator that uses the Float64 method of the
-// random source r.
-func NewGeneratorFromSource(r *rand.Rand) Generator {
-	return NewGenerator(r.Float64)
-}
-
 // global is the internal generator used by package-level functions. It is
 // backed by the global Float64 generator.
-var global = NewGenerator(rand.Float64)
+var global = NewGenerator(UniformSamplerFunc(rand.Float64))
 
 // Spherical generates a random point on the unit sphere in spherical
 // coordinates. This returns an azimuthal angle in radians between 0 and 2pi and
 // a polar angle between 0 and pi.
 func (g Generator) Spherical() (azimuth, polar float64) {
-	azimuth = 2 * math.Pi * g.sampler()
-	polar = math.Acos(2*g.sampler() - 1)
+	azimuth = 2 * math.Pi * g.sampler.Float64()
+	polar = math.Acos(2*g.sampler.Float64() - 1)
 	return
 }
 
